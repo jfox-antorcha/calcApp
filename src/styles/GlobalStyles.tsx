@@ -1,65 +1,58 @@
-import React, { useState, useEffect, useMemo } from "react";
-import { StyleSheet, useColorScheme, ColorSchemeName } from "react-native";
+import React, { useMemo } from "react";
+import { StyleSheet } from "react-native";
 
-interface ThemeColors {
-  backgroud: string;
-  foreground: string;
-  primary: string;
-  secondary: string;
-  border: string;
-  card: string;
-  success: string;
-  alert: string;
-}
+import { ThemeColors } from "../constants/interfaces";
+import ColorsScheme from "./ColorsScheme";
 
-const darkColors: ThemeColors = {
-  backgroud: 'black',
-  foreground: 'white',
-  primary: 'cyan',
-  secondary: 'yellow',
-  border: 'gray',
-  card: 'gray',
-  success: 'green',
-  alert: 'red'
-}
-
-const lightColors: ThemeColors = {
-  backgroud: 'white',
-  foreground: 'black',
-  primary: 'blue',
-  secondary: 'orange',
-  border: 'gray',
-  card: 'gray',
-  success: 'green',
-  alert: 'red'
-}
 
 const GlobalStyles = () => {
-  const theme: ColorSchemeName = useColorScheme()
-  const [themeColors, setthemeColors] = useState<ThemeColors>(lightColors)
+  const colorScheme:ThemeColors = ColorsScheme() 
 
-  useEffect(() => {
-    (theme === 'dark')
-      ? setthemeColors(darkColors)
-      : setthemeColors(lightColors)
-  }, [])
-  
-
-  const styles = useMemo(() => createStyles(themeColors), [themeColors])
+  const styles = useMemo(() => createStyles(colorScheme), [colorScheme])
 
   return styles
 }
 
-const createStyles = (themeColors: ThemeColors) => StyleSheet.create({
-  container: {
+const createStyles = (colorScheme: ThemeColors) => StyleSheet.create({
+  appContainer: {
     flex: 1,
-    backgroundColor: themeColors.backgroud,
+    backgroundColor: colorScheme.backgroud,
+    paddingHorizontal: 10,
   },
-  heading_1: {
-    color: themeColors.foreground,
+  calcContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
+  },
+  calcInput: {
+    color: colorScheme.foreground,
+    fontSize: 40,
+    fontWeight: 'bold',
+    textAlign: 'right',
+    marginHorizontal: 20,
+  },
+  calcLastResult: {
+    color: colorScheme.card,
     fontSize: 30,
-    fontWeight: 'bold'
-  }
+    textAlign: 'right',
+    marginHorizontal: 20,
+  },
+  inputRow: {
+    flex: 20,
+  },
+  operatorRow: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  operatorText: {
+    fontSize: 15,
+    fontWeight: 'bold',
+  },
+  rowContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginVertical: 10,
+  },
 })
 
 export default GlobalStyles;
